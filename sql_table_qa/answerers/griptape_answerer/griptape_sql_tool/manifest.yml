@@ -1,0 +1,5 @@
+version: "v1"
+name: SQL Query Tool
+description: Tool for querying SQL databases compliant with Concourse interface.
+contact_email: e@mail.com
+legal_info_url: https://www.griptape.ai/legal
