@@ -1,4 +1,5 @@
 import os
+import ast
 import streamlit as st
 from operator import itemgetter
 from dotenv import dotenv_values
@@ -34,20 +35,46 @@ answer_prompt = PromptTemplate.from_template(
 answer_writer = answer_prompt | llm | StrOutputParser()
 
 
+@st.cache_data
 def create_sql_query_from_question(question: str) -> str:
     return query_writer.invoke({"question": question})
 
 
+@st.cache_data
 def answer_question(question: str, query: str, result: str) -> str:
     return answer_writer.invoke({"question": question, "query": query, "result": result})
 
 
 # Streamlit UI
 st.title("LangChain SQL Query Answering System")
+BOT = "bot"
+USER = "user"
+
+# Initialize chat history
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+# Display chat messages from history on app rerun
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
+        if "sql" in message:
+            st.code(message["sql"], language="sql")
+        if "result" in message:
+            st.dataframe(message["result"])
+
 
 if question := st.chat_input("Enter your question:"):
+    st.session_state.messages.append({"role": USER, "content": question})
+    with st.chat_message("user"):
+        st.markdown(question)
     query = create_sql_query_from_question(question)
     result = execute_sql(query)
     answer = answer_question(question, query, result)
-    st.code(query, language="sql")
-    st.write(answer)
+    parsed_result = ast.literal_eval(result)
+    with st.chat_message("assistant"):
+        st.dataframe(parsed_result)
+        st.code(query, language="sql")
+        st.write(answer)
+    st.session_state.messages.append(
+        {"role": BOT, "content": answer, "sql": query, "result": parsed_result})
