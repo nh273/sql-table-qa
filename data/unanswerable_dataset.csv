@@ -1,4 +1,4 @@
-Question,Response
+question,answer_detailed
 How satisfied are customers with their purchases?,"Unfortunately, there is no customer satisfaction data in the dataset to answer this."
 What is the demographic profile of our customers?,The dataset lacks detailed demographic data necessary to analyze customer profiles.
 Where do the products come from?,There is no supply chain information in the dataset to determine the origin of products.
