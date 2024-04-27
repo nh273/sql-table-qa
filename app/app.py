@@ -61,7 +61,14 @@ for message in st.session_state.messages:
         if "sql" in message:
             st.code(message["sql"], language="sql")
         if "result" in message:
-            st.dataframe(message["result"])
+            try:
+                st.dataframe(message["result"])
+            except Exception as e:
+                st.write(e)
+
+
+def is_valid_parsed_result(parsed_result: any) -> bool:
+    return parsed_result and isinstance(parsed_result, list) and isinstance(parsed_result[0], dict)
 
 
 if question := st.chat_input("Enter your question:"):
@@ -71,10 +78,17 @@ if question := st.chat_input("Enter your question:"):
     query = create_sql_query_from_question(question)
     result = execute_sql(query)
     answer = answer_question(question, query, result)
-    parsed_result = ast.literal_eval(result)
+    try:
+        parsed_result = ast.literal_eval(result)
+    except Exception as e:
+        parsed_result = result
     with st.chat_message("assistant"):
-        st.dataframe(parsed_result)
-        st.code(query, language="sql")
+        if is_valid_parsed_result(parsed_result):
+            st.dataframe(parsed_result)
+        if query:
+            st.code(query, language="sql")
         st.write(answer)
     st.session_state.messages.append(
-        {"role": BOT, "content": answer, "sql": query, "result": parsed_result})
+        {"role": BOT, "content": answer, "sql": query,
+            "result": parsed_result if is_valid_parsed_result(parsed_result) else None}
+    )
