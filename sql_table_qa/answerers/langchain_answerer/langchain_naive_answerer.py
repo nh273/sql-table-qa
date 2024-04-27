@@ -21,7 +21,7 @@ class LangchainNaiveAnswerer:
         config = {**dotenv_values(f"{ROOT_DIR}/configs/local.env")}
         os.environ["OPENAI_API_KEY"] = config["OPENAI_API_KEY"]
         # Initialize your database and language model objects here
-        self.db = SQLDatabase.from_uri("sqlite:///./data/Chinook.db")
+        self.db = SQLDatabase.from_uri(f"sqlite:///{ROOT_DIR}/data/Chinook.db")
         self.llm = ChatOpenAI(model="gpt-3.5-turbo-0125")
         # Tools and chain setup
         # TODO: this can be easily integrated with our custom db connector
