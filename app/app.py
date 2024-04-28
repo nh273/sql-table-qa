@@ -16,7 +16,7 @@ client = OpenAI()
 answerer = LangchainNaiveAnswerer()
 # Streamlit UI
 st.title("LangChain SQL Query Answering System")
-BOT = "bot"
+BOT = "assistant"
 USER = "user"
 
 # Initialize chat history
