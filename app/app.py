@@ -45,10 +45,23 @@ if "current_sql" not in st.session_state:
     st.session_state.current_sql = ""
 
 
-def get_text_content(message):
+def get_text_content(message, allow_failure=False) -> str:
+    """Get the text content from a message returned by the OpenAI Assistant API.
+
+    Args:
+        message (ChatMessage): openai.ChatMessage object.
+        allow_failure (bool, optional): handles exceptions by
+        returning the exception message as string or raises the exception.
+        Defaults to False.
+
+    Returns:
+        str: _description_
+    """
     try:
         return message.content[0].text.value
     except Exception as e:
+        if allow_failure:
+            raise e
         return str(e)
 
 
@@ -60,7 +73,7 @@ if st.session_state.messages:
 for message in st.session_state.messages:
     with st.chat_message(message.role):
         try:
-            st.write(get_text_content(message))
+            st.write(get_text_content(message, allow_failure=True))
         except AttributeError:
             st.write(message.content)
 
