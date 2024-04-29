@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/287136887565225517/7f8a1494bccb4d16a491eefd7bcc543b/artifacts
+end_time: 1714422094143
+entry_point_name: ''
+experiment_id: '287136887565225517'
+lifecycle_stage: active
+run_id: 7f8a1494bccb4d16a491eefd7bcc543b
+run_name: notebook-initial-test-20240429_161912
+run_uuid: 7f8a1494bccb4d16a491eefd7bcc543b
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1714421952999
+status: 3
+tags: []
+user_id: pnguyen

@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/287136887565225517/53ed27b5159c499cbf204507193b1f51/artifacts
+end_time: 1714422118613
+entry_point_name: ''
+experiment_id: '287136887565225517'
+lifecycle_stage: active
+run_id: 53ed27b5159c499cbf204507193b1f51
+run_name: refactored-langchain-test-w-unanswerable-20240429_161909
+run_uuid: 53ed27b5159c499cbf204507193b1f51
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1714421949984
+status: 3
+tags: []
+user_id: pnguyen

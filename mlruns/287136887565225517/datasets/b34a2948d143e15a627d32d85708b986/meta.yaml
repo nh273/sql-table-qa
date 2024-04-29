@@ -1,0 +1,8 @@
+digest: 51ee1ac2
+name: dataset
+profile: '{"num_rows": 16, "num_elements": 48}'
+schema: '{"mlflow_colspec": [{"type": "string", "name": "question"}, {"type": "string",
+  "name": "answer_detailed"}, {"type": "string", "name": "model_answer"}]}'
+source: '{"tags": {"mlflow.user": "pnguyen", "mlflow.source.name": "/Users/pnguyen/.pyenv/versions/miniconda3-4.5.4/envs/sql-table-qa/lib/python3.11/site-packages/ipykernel_launcher.py",
+  "mlflow.source.type": "LOCAL"}}'
+source_type: code
