@@ -238,6 +238,53 @@ class DatabaseConnector:
         return methods_info
 
     @staticmethod
+    def convert_python_type_to_openai_type(python_type: str) -> str:
+        """Converts a Python type to an OpenAI type."""
+        if python_type == "str":
+            return "string"
+        else:
+            return python_type
+
+    @staticmethod
+    def create_open_ai_assistant_tools() -> dict:
+        """Extracts and returns information about all public methods of this class as a list
+        of dictionaries specifying OpenAI Assistant tools.
+        in this format:
+        {
+            "tool_name": "execute_sql",
+            "description": "Executes an SQL statement on the Chinook database and get back the results.",
+            "schema": {
+                arg: arg type
+            }
+        }
+        """
+        tools = []
+        for name, func in inspect.getmembers(DatabaseConnector, predicate=inspect.isfunction):
+            if not name.startswith('_'):
+                sig = inspect.signature(func)
+                params = {
+                    param.name: {
+                        "type": DatabaseConnector   .convert_python_type_to_openai_type(param.annotation.__name__) if param.annotation != inspect._empty else "Any",
+                        "description": param.annotation.__doc__ if param.annotation != inspect._empty else "No further description provided."
+                    }
+                    for param in sig.parameters.values() if param.name != "self"
+                }
+                tools.append({
+                    "type": "function",
+                    "function": {
+                        "name": name,
+                        "description": inspect.getdoc(func) or "No further description provided.",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                **params
+                            }
+                        }
+                    }
+                })
+        return tools
+
+    @ staticmethod
     def get_methods_info_string() -> str:
         """Extracts and returns information about all public methods of this class as a JSON string."""
         return json.dumps(DatabaseConnector.get_methods_info(), indent=4)
