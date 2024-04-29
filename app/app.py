@@ -2,7 +2,6 @@ import os
 from dotenv import dotenv_values
 from collections import deque
 import streamlit as st
-from code_editor import code_editor
 from answerers.langchain_answerer.langchain_naive_answerer import LangchainNaiveAnswerer
 from openai import OpenAI
 from CONSTANTS import ROOT_DIR
