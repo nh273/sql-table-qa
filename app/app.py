@@ -2,7 +2,7 @@ import os
 from dotenv import dotenv_values
 from collections import deque
 import streamlit as st
-from answerers.langchain_answerer.langchain_naive_answerer import LangchainNaiveAnswerer
+from sql_table_qa.answerers.langchain_answerer.langchain_naive_answerer import LangchainNaiveAnswerer
 from openai import OpenAI
 from CONSTANTS import ROOT_DIR
 
@@ -39,7 +39,6 @@ def submit_sql(sql: str):
     with st.chat_message(BOT):
         while q:
             msg = q.popleft()
-            st.write(msg)
             st.session_state.messages.append(
                 {"role": BOT, "content": msg}
             )
